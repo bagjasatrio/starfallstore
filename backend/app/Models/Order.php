@@ -25,6 +25,11 @@ class Order extends Model
         'payment_method',
         'payment_channel',
         'amount',
+        'voucher_id',
+        'discount_amount',
+        'supplier_price',
+        'selling_price',
+        'net_profit',
         'admin_fee',
         'total_amount',
         'status',
@@ -46,6 +51,10 @@ class Order extends Model
     {
         return [
             'amount' => 'decimal:2',
+            'discount_amount' => 'decimal:2',
+            'supplier_price' => 'decimal:2',
+            'selling_price' => 'decimal:2',
+            'net_profit' => 'decimal:2',
             'admin_fee' => 'decimal:2',
             'total_amount' => 'decimal:2',
             'paid_at' => 'datetime',
@@ -91,6 +100,11 @@ class Order extends Model
     public function logs()
     {
         return $this->hasMany(TransactionLog::class);
+    }
+
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class);
     }
 
     // ─── Scopes ──────────────────────────────────────────────────────────────

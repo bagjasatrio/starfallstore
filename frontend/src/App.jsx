@@ -5,6 +5,7 @@ import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import LoadingSpinner from './components/ui/LoadingSpinner'
 import ChatSupportBubble from './components/shared/ChatSupportBubble'
+import ErrorBoundary from './components/shared/ErrorBoundary'
 import useAuthStore from './stores/authStore'
 
 // ── Lazy-loaded pages ──────────────────────────────────────────────────────────
@@ -20,6 +21,14 @@ const DigitalServices   = lazy(() => import('./pages/DigitalServices'))
 const BuyerDashboard    = lazy(() => import('./pages/BuyerDashboard'))
 const AdminDashboard    = lazy(() => import('./pages/AdminDashboard'))
 const NotFound          = lazy(() => import('./pages/NotFound'))
+
+// ── Static Legal & Help Pages ──────────────────────────────────────────────────
+const SyaratKetentuan   = lazy(() => import('./pages/SyaratKetentuan'))
+const KebijakanPrivasi  = lazy(() => import('./pages/KebijakanPrivasi'))
+const TentangKami       = lazy(() => import('./pages/TentangKami'))
+const HubungiKami       = lazy(() => import('./pages/HubungiKami'))
+const MetodePembayaran  = lazy(() => import('./pages/MetodePembayaran'))
+const FAQ               = lazy(() => import('./pages/FAQ'))
 
 // ── Protected Route Wrapper ────────────────────────────────────────────────────
 function ProtectedRoute({ children, requireAdmin = false }) {
@@ -76,9 +85,10 @@ export default function App() {
       />
 
       <Suspense fallback={<LoadingSpinner fullscreen />}>
-        <Routes>
-          {/* ── Public Pages ─────────────────────────────────────── */}
-          <Route path="/" element={
+        <ErrorBoundary>
+          <Routes>
+            {/* ── Public Pages ─────────────────────────────────────── */}
+            <Route path="/" element={
             <PageLayout>
               <HomePage
                 openLogin={() => setLoginModalOpen(true)}
@@ -155,9 +165,18 @@ export default function App() {
             </ProtectedRoute>
           } />
 
-          {/* ── 404 ──────────────────────────────────────────────── */}
-          <Route path="*" element={<PageLayout><NotFound /></PageLayout>} />
-        </Routes>
+          {/* ── Info & Legal Pages ── */}
+          <Route path="/syarat-ketentuan" element={<PageLayout><SyaratKetentuan /></PageLayout>} />
+          <Route path="/kebijakan-privasi" element={<PageLayout><KebijakanPrivasi /></PageLayout>} />
+          <Route path="/tentang-kami" element={<PageLayout><TentangKami /></PageLayout>} />
+          <Route path="/dukungan" element={<PageLayout><HubungiKami /></PageLayout>} />
+          <Route path="/metode-pembayaran" element={<PageLayout><MetodePembayaran /></PageLayout>} />
+          <Route path="/faq" element={<PageLayout><FAQ /></PageLayout>} />
+
+          {/* ── 404 Not Found ── */}
+            <Route path="*" element={<PageLayout fullWidth><NotFound /></PageLayout>} />
+          </Routes>
+        </ErrorBoundary>
       </Suspense>
       <ChatSupportBubble />
     </BrowserRouter>

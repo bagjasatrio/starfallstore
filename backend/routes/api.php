@@ -46,6 +46,10 @@ Route::post('/game/check-nickname', [OrderController::class, 'checkNickname'])
 Route::post('/orders', [OrderController::class, 'store'])
     ->middleware([ValidateTurnstileToken::class, 'throttle:10,1']);
 
+// Voucher validation (Public)
+Route::post('/vouchers/check', [\App\Http\Controllers\Api\VoucherCheckController::class, 'check'])
+    ->middleware('throttle:30,1');
+
 // Leaderboard (cached)
 Route::get('/leaderboard', [LeaderboardController::class, 'index']);
 
@@ -115,6 +119,9 @@ Route::middleware('auth:sanctum')->group(function () {
         
         // Finance Analytics
         Route::get('/analytics/finance', [\App\Http\Controllers\Api\Admin\AdminFinanceController::class, 'index']);
+        
+        // Vouchers
+        Route::apiResource('/vouchers', \App\Http\Controllers\Api\Admin\VoucherController::class);
         Route::post('/users', [\App\Http\Controllers\Api\Admin\AdminUserManagementController::class, 'store']);
         Route::get('/users/{id}', [\App\Http\Controllers\Api\Admin\AdminUserManagementController::class, 'show']);
         Route::put('/users/{id}', [\App\Http\Controllers\Api\Admin\AdminUserManagementController::class, 'update']);

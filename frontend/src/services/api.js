@@ -59,6 +59,7 @@ export const orderApi = {
   track:         (query)=> api.get(`/orders/track/${query}`),
   myOrders:      ()     => api.get('/my-orders'),
   checkNickname: (data) => api.post('/game/check-nickname', data),
+  checkVoucher:  (data) => api.post('/vouchers/check', data),
 }
 
 export const leaderboardApi = {
@@ -97,4 +98,10 @@ export const adminApi = {
 
   // Finance Analytics
   finance:         () => api.get('/admin/analytics/finance'),
+
+  // Vouchers
+  vouchersList:    () => api.get('/admin/vouchers'),
+  voucherCreate:   (data) => api.post('/admin/vouchers', data),
+  voucherUpdate:   (id, data) => api.put(`/admin/vouchers/${id}`, data),
+  voucherDelete:   (id) => api.delete(`/admin/vouchers/${id}`),
 }

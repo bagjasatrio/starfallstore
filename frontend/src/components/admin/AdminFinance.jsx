@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { adminApi } from '../../services/api'
-import { TrendingUp, DollarSign, Wallet, AlertCircle, RefreshCw, ChevronRight } from 'lucide-react'
+import { TrendingUp, DollarSign, Wallet, AlertCircle, RefreshCw, ChevronRight, Tag } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 function formatRp(n) {
@@ -82,7 +82,7 @@ export default function AdminFinance() {
       </div>
 
       {/* ── Summary Cards ─────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         <StatCard 
           label="Total Pendapatan Kotor" 
           value={formatRp(data.total_revenue)} 
@@ -94,6 +94,12 @@ export default function AdminFinance() {
           value={formatRp(data.total_cost)} 
           icon={DollarSign} 
           glowColor="slate-400" 
+        />
+        <StatCard 
+          label="Potongan Voucher" 
+          value={formatRp(data.total_discount)} 
+          icon={Tag} 
+          glowColor="error" 
         />
         <StatCard 
           label="Laba Bersih (Net Profit)" 
@@ -174,9 +180,14 @@ export default function AdminFinance() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-[10px] text-text-muted pt-2 border-t border-white/5">
-                  <span>Jual: {formatRp(log.revenue)}</span>
-                  <span>Modal: {formatRp(log.cost)}</span>
+                <div className="flex items-center justify-between text-[10px] text-text-muted pt-2 border-t border-white/5 mt-2 space-y-1">
+                  <div className="flex flex-col">
+                    <span>Jual: {formatRp(log.revenue)}</span>
+                    {log.discount > 0 && <span className="text-error">Diskon: -{formatRp(log.discount)}</span>}
+                  </div>
+                  <div className="flex flex-col text-right">
+                    <span>Modal: {formatRp(log.cost)}</span>
+                  </div>
                 </div>
               </div>
             ))}

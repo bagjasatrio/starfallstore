@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Package;
 use App\Models\Product;
+use App\Models\Voucher;
 use App\Services\CashiService;
 use App\Services\DigiflazzService;
 use App\Services\NotificationService;
@@ -60,6 +61,7 @@ class OrderController extends Controller
             'payment_channel'=> ['nullable', 'string', 'max:20'],
             'buyer_phone'    => ['required_without_all:user_id', 'nullable', 'string', 'max:20', 'regex:/^[0-9]+$/'],
             'buyer_email'    => ['nullable', 'email', 'max:255'],
+            'voucher_code'   => ['nullable', 'string', 'max:50'],
         ]);
 
         $package = Package::with('product')->findOrFail($data['package_id']);
@@ -68,10 +70,42 @@ class OrderController extends Controller
             return response()->json(['message' => 'Paket tidak sesuai produk.'], 422);
         }
 
-        $adminFee = $this->cashi->calculateAdminFee($data['payment_method'], $package->selling_price);
-        $totalAmount = $package->selling_price + $adminFee;
+        $supplierPrice = (float) $package->cost_price;
+        $sellingPrice = (float) $package->selling_price;
+        
+        $discountAmount = 0;
+        $voucher = null;
 
-        $order = DB::transaction(function () use ($data, $package, $adminFee, $totalAmount, $request) {
+        if (!empty($data['voucher_code'])) {
+            $voucher = Voucher::where('code', $data['voucher_code'])
+                ->where('is_active', true)
+                ->where(function($q) {
+                    $q->whereNull('valid_until')->orWhere('valid_until', '>=', now());
+                })
+                ->where(function($q) {
+                    $q->whereNull('max_uses')->orWhereColumn('uses_count', '<', 'max_uses');
+                })
+                ->first();
+
+            if ($voucher) {
+                if ($voucher->discount_type === 'percentage') {
+                    $discountAmount = $sellingPrice * ((float) $voucher->discount_value / 100);
+                } else {
+                    $discountAmount = (float) $voucher->discount_value;
+                }
+                
+                if ($discountAmount > $sellingPrice) {
+                    $discountAmount = $sellingPrice;
+                }
+            }
+        }
+
+        $finalAmount = $sellingPrice - $discountAmount;
+        $adminFee = $this->cashi->calculateAdminFee($data['payment_method'], $finalAmount);
+        $totalAmount = $finalAmount + $adminFee;
+        $netProfit = $sellingPrice - $supplierPrice - $discountAmount;
+
+        $order = DB::transaction(function () use ($data, $package, $adminFee, $totalAmount, $finalAmount, $supplierPrice, $sellingPrice, $discountAmount, $netProfit, $voucher, $request) {
             $order = Order::create([
                 'user_id'        => $request->user()?->id,
                 'product_id'     => $data['product_id'],
@@ -83,12 +117,21 @@ class OrderController extends Controller
                 'buyer_email'    => $data['buyer_email'] ?? $request->user()?->email,
                 'payment_method' => $data['payment_method'],
                 'payment_channel'=> $data['payment_channel'] ?? null,
-                'amount'         => $package->selling_price,
+                'voucher_id'     => $voucher?->id,
+                'discount_amount'=> $discountAmount,
+                'supplier_price' => $supplierPrice,
+                'selling_price'  => $sellingPrice,
+                'net_profit'     => $netProfit,
+                'amount'         => $finalAmount,
                 'admin_fee'      => $adminFee,
                 'total_amount'   => $totalAmount,
                 'status'         => 'unpaid',
                 'expires_at'     => now()->addMinutes(15),
             ]);
+
+            if ($voucher) {
+                $voucher->increment('uses_count');
+            }
 
             $order->addLog('order.created', ['package_sku' => $package->sku]);
 
@@ -212,6 +255,7 @@ class OrderController extends Controller
             'game_nickname'   => $order->game_nickname,
             'payment_method'  => $order->payment_method,
             'payment_channel' => $order->payment_channel,
+            'discount_amount' => (float) $order->discount_amount,
             'amount'          => (float) $order->amount,
             'admin_fee'       => (float) $order->admin_fee,
             'total_amount'    => (float) $order->total_amount,

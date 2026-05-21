@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { CheckCircle2, Loader2, User, Hash, CreditCard, Zap, AlertCircle, ChevronRight } from 'lucide-react'
+import { CheckCircle2, Loader2, User, Hash, CreditCard, Zap, AlertCircle, ChevronRight, X } from 'lucide-react'
 import { productApi, orderApi } from '../services/api'
 import toast from 'react-hot-toast'
 
@@ -49,6 +49,22 @@ export default function ProductDetail() {
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
 
+  const [voucherCode, setVoucherCode] = useState('')
+  const [appliedVoucher, setAppliedVoucher] = useState(null)
+  const [voucherLoading, setVoucherLoading] = useState(false)
+  const [discountAmount, setDiscountAmount] = useState(0)
+  const [voucherMessage, setVoucherMessage] = useState(null)
+
+  // Clear voucher if package changes
+  useEffect(() => {
+    if (appliedVoucher || voucherMessage) {
+      setAppliedVoucher(null)
+      setDiscountAmount(0)
+      setVoucherCode('')
+      setVoucherMessage(null)
+    }
+  }, [selectedPkg])
+
   useEffect(() => {
     productApi.show(slug)
       .then(res => {
@@ -85,8 +101,46 @@ export default function ProductDetail() {
     return () => clearTimeout(t)
   }, [userId, serverId])
 
-  const adminFee = selectedPkg ? calcFee(selectedMethod, Number(selectedPkg.selling_price)) : 0
-  const totalAmount = selectedPkg ? Number(selectedPkg.selling_price) + adminFee : 0
+  const handleApplyVoucher = async () => {
+    setVoucherMessage(null)
+    if (!selectedPkg) {
+      setVoucherMessage({ type: 'error', text: 'Pilih paket terlebih dahulu.' })
+      return
+    }
+    if (!voucherCode.trim()) {
+      setVoucherMessage({ type: 'error', text: 'Masukkan kode voucher.' })
+      return
+    }
+    
+    setVoucherLoading(true)
+    try {
+      const res = await orderApi.checkVoucher({
+        code: voucherCode.toUpperCase(),
+        package_id: selectedPkg.id
+      })
+      setAppliedVoucher(res.data.voucher)
+      setDiscountAmount(res.data.discount_amount)
+      setVoucherMessage({ type: 'success', text: 'Voucher berhasil diterapkan!' })
+    } catch (err) {
+      setAppliedVoucher(null)
+      setDiscountAmount(0)
+      setVoucherMessage({ type: 'error', text: err.response?.data?.message || 'Voucher tidak valid.' })
+    } finally {
+      setVoucherLoading(false)
+    }
+  }
+
+  const handleRemoveVoucher = () => {
+    setAppliedVoucher(null)
+    setDiscountAmount(0)
+    setVoucherCode('')
+    setVoucherMessage(null)
+  }
+
+  const basePrice = selectedPkg ? Number(selectedPkg.selling_price) : 0
+  const finalPrice = Math.max(0, basePrice - discountAmount)
+  const adminFee = selectedPkg ? calcFee(selectedMethod, finalPrice) : 0
+  const totalAmount = finalPrice + adminFee
 
   const handleSubmit = async () => {
     if (!selectedPkg) return toast.error('Pilih paket terlebih dahulu.')
@@ -105,6 +159,7 @@ export default function ProductDetail() {
         payment_channel: selectedMethod === 'va' ? selectedBank : null,
         buyer_phone: phone || null,
         buyer_email: email || null,
+        voucher_code: appliedVoucher ? appliedVoucher.code : null,
       })
       toast.success('Pesanan berhasil dibuat!')
       navigate(`/invoice/${res.data.order.uuid}`)
@@ -262,6 +317,12 @@ export default function ProductDetail() {
                   <span className="text-text-muted">Biaya Admin</span>
                   <span className="text-text-primary">{formatRp(adminFee)}</span>
                 </div>
+                {appliedVoucher && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-error">Diskon Voucher</span>
+                    <span className="text-error">-{formatRp(discountAmount)}</span>
+                  </div>
+                )}
                 <div className="border-t border-white/10 pt-3 flex justify-between font-display font-bold">
                   <span className="text-text-primary">Total</span>
                   <span className="text-cyan-glow text-lg">{formatRp(totalAmount)}</span>
@@ -273,6 +334,41 @@ export default function ProductDetail() {
                 Pilih paket untuk melihat ringkasan
               </div>
             )}
+
+            {/* Voucher Input */}
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-text-secondary mb-2">Punya Kode Voucher?</label>
+              {!appliedVoucher ? (
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <input type="text" className="input-dark text-sm flex-1" placeholder="Masukkan kode..."
+                      value={voucherCode} onChange={(e) => setVoucherCode(e.target.value)} disabled={voucherLoading} />
+                    <button type="button" onClick={handleApplyVoucher} disabled={voucherLoading}
+                      className="btn-secondary px-4 py-2 text-sm disabled:opacity-50">
+                      {voucherLoading ? 'Cek...' : 'Pakai'}
+                    </button>
+                  </div>
+                  {voucherMessage && (
+                    <p className={`text-xs mt-1 ${voucherMessage.type === 'success' ? 'text-emerald-400' : 'text-error'}`}>
+                      {voucherMessage.text}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center justify-between p-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 size={16} className="text-emerald-400" />
+                    <div>
+                      <p className="text-sm font-semibold text-emerald-400">{appliedVoucher.code}</p>
+                      <p className="text-[10px] text-emerald-400/80">Voucher diterapkan</p>
+                    </div>
+                  </div>
+                  <button onClick={handleRemoveVoucher} className="p-1 text-text-muted hover:text-error transition-colors">
+                    <X size={16} />
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Contact fields for guest */}
             <div className="space-y-3 mb-5">

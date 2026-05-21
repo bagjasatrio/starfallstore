@@ -182,10 +182,29 @@ export default function AdminOrders() {
                   <p className="text-xs text-text-muted mt-0.5">{o.buyer_phone}</p>
                 </div>
                 
-                {/* Column 4: Total */}
-                <div className="flex-1 min-w-[100px]">
-                  <p className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">Total</p>
-                  <p className="font-display font-semibold text-text-primary">{formatRp(o.total_amount)}</p>
+                {/* Column 4: Financial Breakdown */}
+                <div className="flex-2 min-w-[200px]">
+                  <p className="text-[10px] text-text-muted uppercase tracking-wider mb-1">Financial Breakdown</p>
+                  <div className="text-xs space-y-0.5">
+                    <div className="flex justify-between w-full max-w-[180px]">
+                      <span className="text-text-muted">Harga Jual:</span>
+                      <span className="text-text-primary font-medium">{formatRp(o.selling_price || (o.amount + (o.discount_amount||0)))}</span>
+                    </div>
+                    <div className="flex justify-between w-full max-w-[180px]">
+                      <span className="text-text-muted">Modal:</span>
+                      <span className="text-text-secondary">{formatRp(o.supplier_price || o.cost_price || 0)}</span>
+                    </div>
+                    {(o.discount_amount > 0) && (
+                      <div className="flex justify-between w-full max-w-[180px]">
+                        <span className="text-error">Diskon:</span>
+                        <span className="text-error">-{formatRp(o.discount_amount)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between w-full max-w-[180px] pt-0.5 border-t border-white/10 mt-0.5">
+                      <span className="text-emerald-400 font-medium">Profit:</span>
+                      <span className="text-emerald-400 font-bold">{formatRp(o.net_profit || (o.amount - (o.cost_price||0)))}</span>
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Column 5: Status */}

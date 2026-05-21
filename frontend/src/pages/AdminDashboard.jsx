@@ -9,6 +9,7 @@ import AdminInventory from '../components/admin/AdminInventory'
 import AdminUserManagement from '../components/admin/AdminUserManagement'
 import AdminAuditLogs from '../components/admin/AdminAuditLogs'
 import AdminFinance from '../components/admin/AdminFinance'
+import AdminVouchers from '../components/admin/AdminVouchers'
 
 function formatRp(n) { return 'Rp ' + new Intl.NumberFormat('id-ID').format(Number(n) || 0) }
 
@@ -17,6 +18,7 @@ const SIDEBAR_ITEMS = [
   { to: '/admin/orders', label: 'Pesanan', icon: ShoppingBag },
   { to: '/admin/products', label: 'Produk', icon: Package },
   { to: '/admin/inventory', label: 'Stok Akun', icon: Database },
+  { to: '/admin/vouchers', label: 'Voucher', icon: Database }, // Reusing Database or Ticket icon if available, but let's stick to standard lucide icons
   { to: '/admin/users', label: 'Manajemen User', icon: Users },
   { to: '/admin/finance', label: 'Finance Analytics', icon: DollarSign },
   { to: '/admin/audit-logs', label: 'Audit Logs', icon: AlertCircle },
@@ -148,10 +150,11 @@ function DashboardHome() {
 
       <div className="glass-card p-6">
         <h3 className="font-display font-semibold text-text-primary mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {[
             { label: 'Lihat Pesanan', to: '/admin/orders', icon: ShoppingBag },
             { label: 'Tambah Produk', to: '/admin/products', icon: Package },
+            { label: 'Kelola Voucher', to: '/admin/vouchers', icon: Database },
             { label: 'Audit Logs', to: '/admin/audit-logs', icon: AlertCircle },
             { label: 'Leaderboard', to: '/leaderboard', icon: TrendingUp },
           ].map(({ label, to, icon: Icon }) => (
@@ -178,6 +181,7 @@ export default function AdminDashboard() {
             <Route path="orders" element={<AdminOrders />} />
             <Route path="products" element={<AdminProducts />} />
             <Route path="inventory" element={<AdminInventory />} />
+            <Route path="vouchers" element={<AdminVouchers />} />
             <Route path="users" element={<AdminUserManagement />} />
             <Route path="finance" element={<AdminFinance />} />
             <Route path="audit-logs" element={<AdminAuditLogs />} />
