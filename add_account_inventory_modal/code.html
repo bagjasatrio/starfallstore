@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StarfallStore - Add Account Inventory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "background": "#0d1321",
+                      "secondary-fixed-dim": "#4cd7f6",
+                      "on-surface-variant": "#c2c6d6",
+                      "on-tertiary-fixed-variant": "#334282",
+                      "on-primary-fixed": "#001a42",
+                      "inverse-primary": "#005ac2",
+                      "on-secondary-fixed-variant": "#004e5c",
+                      "surface-container-low": "#151c29",
+                      "error-container": "#93000a",
+                      "primary-container": "#4d8eff",
+                      "tertiary-fixed": "#dde1ff",
+                      "surface-container-highest": "#2e3543",
+                      "on-tertiary": "#1a2b6a",
+                      "error": "#ffb4ab",
+                      "outline": "#8c909f",
+                      "on-tertiary-fixed": "#001354",
+                      "tertiary-fixed-dim": "#b8c4ff",
+                      "on-tertiary-container": "#122463",
+                      "on-secondary": "#003640",
+                      "outline-variant": "#424754",
+                      "surface-container": "#19202d",
+                      "secondary-container": "#03b5d3",
+                      "on-secondary-container": "#00424e",
+                      "secondary": "#4cd7f6",
+                      "inverse-surface": "#dce2f5",
+                      "primary-fixed-dim": "#adc6ff",
+                      "on-primary-container": "#00285d",
+                      "surface-variant": "#2e3543",
+                      "surface": "#0d1321",
+                      "tertiary": "#b8c4ff",
+                      "surface-container-high": "#232a38",
+                      "on-background": "#dce2f5",
+                      "inverse-on-surface": "#2a303f",
+                      "surface-tint": "#adc6ff",
+                      "surface-container-lowest": "#070e1b",
+                      "on-surface": "#dce2f5",
+                      "on-error": "#690005",
+                      "tertiary-container": "#7e8dd2",
+                      "on-primary": "#002e6a",
+                      "on-primary-fixed-variant": "#004395",
+                      "primary-fixed": "#d8e2ff",
+                      "surface-bright": "#333948",
+                      "primary": "#adc6ff",
+                      "surface-dim": "#0d1321",
+                      "on-secondary-fixed": "#001f26",
+                      "on-error-container": "#ffdad6",
+                      "secondary-fixed": "#acedff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Geist"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Geist"
+                      ],
+                      "headline-lg": [
+                              "Geist"
+                      ],
+                      "label-sm": [
+                              "Geist"
+                      ],
+                      "label-md": [
+                              "Geist"
+                      ],
+                      "headline-xl": [
+                              "Geist"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+            background-image: radial-gradient(circle at 50% 0%, rgba(76, 215, 246, 0.05) 0%, transparent 50%),
+                              radial-gradient(circle at 0% 100%, rgba(173, 198, 255, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(13, 19, 33, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .input-glow:focus-within {
+            border-color: theme('colors.secondary');
+            box-shadow: 0 0 15px rgba(76, 215, 246, 0.2);
+            background: rgba(46, 53, 67, 0.8);
+        }
+
+        .btn-glow {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(76, 215, 246, 0.3);
+            background: linear-gradient(135deg, theme('colors.primary'), theme('colors.secondary'));
+        }
+
+        /* Custom Scrollbar for the background page to simulate real environment */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.surface-container');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant');
+            border-radius: theme('borderRadius.full');
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md relative h-screen w-full">
+<!-- Background Simulated UI (Blurred Out) -->
+<div aria-hidden="true" class="absolute inset-0 z-0 overflow-hidden">
+<!-- Top Nav Placeholder -->
+<div class="h-16 border-b border-white/5 bg-surface-container-low/50 w-full flex items-center px-8">
+<div class="w-32 h-6 bg-surface-bright rounded"></div>
+<div class="ml-auto flex gap-4">
+<div class="w-8 h-8 bg-surface-bright rounded-full"></div>
+<div class="w-8 h-8 bg-surface-bright rounded-full"></div>
+</div>
+</div>
+<!-- Main Content Area Placeholder -->
+<div class="flex h-[calc(100vh-4rem)]">
+<!-- Side Nav Placeholder -->
+<div class="w-64 border-r border-white/5 bg-surface-container/30 h-full p-4 flex flex-col gap-4 hidden md:flex">
+<div class="w-full h-10 bg-surface-bright/50 rounded"></div>
+<div class="w-full h-10 bg-surface-bright/50 rounded"></div>
+<div class="w-full h-10 bg-surface-bright/50 rounded"></div>
+</div>
+<!-- Table Content Placeholder - Reference Image -->
+<div class="flex-1 p-8 opacity-40 filter blur-sm transition-all duration-500 pointer-events-none" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZPMa6rJ0tyEUZ-Y4OFFR6kCMg4BIzyWZDY0G4df-xe8OcCnXWQYbmeMsoqRN6n2XVOeuo_tCq-MniwONUqfFPhTfq-zRDg9eT386e7O7__dkalbUFqhBsf6lsXNgUP044FCd41GPXcuoZK2GK9-Sx9m7Wgz-t0eeLBQC_ryR85JPhpmUfDfpN7LukGzcw3biXlRxJtORmE8SjXXOlCO53FNt8Xqv6PG3bj8Xya4ifHb-zCjY8XzXhYKYG0BUQOwDjVVIAFtLPRfk'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<!-- Overlay to dim the reference image slightly to match the theme -->
+<div class="absolute inset-0 bg-background/60"></div>
+<div class="relative z-10 w-full max-w-6xl mx-auto mt-12">
+<div class="flex justify-between items-center mb-8">
+<div class="w-48 h-8 bg-surface-bright rounded"></div>
+<div class="w-32 h-10 bg-primary/20 rounded"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-lg h-[600px] border border-white/5 p-6">
+<!-- Table Headers -->
+<div class="flex gap-4 border-b border-white/10 pb-4 mb-4">
+<div class="w-1/4 h-4 bg-surface-bright rounded"></div>
+<div class="w-1/4 h-4 bg-surface-bright rounded"></div>
+<div class="w-1/4 h-4 bg-surface-bright rounded"></div>
+<div class="w-1/4 h-4 bg-surface-bright rounded"></div>
+</div>
+<!-- Table Rows -->
+<div class="space-y-4">
+<div class="flex gap-4"><div class="w-full h-8 bg-surface-variant/50 rounded"></div></div>
+<div class="flex gap-4"><div class="w-full h-8 bg-surface-variant/50 rounded"></div></div>
+<div class="flex gap-4"><div class="w-full h-8 bg-surface-variant/50 rounded"></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-margin-mobile md:p-gutter bg-background/80 backdrop-blur-sm">
+<!-- Modal Container -->
+<div aria-labelledby="modal-title" aria-modal="true" class="glass-panel w-full max-w-2xl rounded-xl relative overflow-hidden flex flex-col max-h-[90vh]" role="dialog">
+<!-- Decorative Header Gradient -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-50"></div>
+<!-- Modal Header -->
+<div class="flex items-center justify-between p-6 border-b border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[28px]" style="font-variation-settings: 'FILL' 1;">add_box</span>
+<h2 class="font-headline-md text-headline-md text-on-surface" id="modal-title">Add Account Inventory</h2>
+</div>
+<button aria-label="Close modal" class="text-on-surface-variant hover:text-white transition-colors p-2 rounded-full hover:bg-white/5">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable) -->
+<div class="p-6 overflow-y-auto flex-1 space-y-8">
+<!-- Section 1: Target Service -->
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface block uppercase tracking-wider">Target Game / Service</label>
+<div class="relative input-glow rounded-lg transition-all duration-300">
+<select class="w-full bg-surface-container-high text-on-surface border border-outline-variant rounded-lg px-4 py-3 appearance-none focus:outline-none focus:ring-0 font-body-md text-body-md cursor-pointer h-[50px]">
+<option disabled="" selected="" value="">Select a game or service...</option>
+<option value="mlbb">Mobile Legends: Bang Bang</option>
+<option value="valo">VALORANT</option>
+<option value="gi">Genshin Impact</option>
+<option value="steam">Steam Account</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Section 2: Input Method Toggle -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface block uppercase tracking-wider">Input Method</label>
+</div>
+<div class="flex p-1 bg-surface-container-highest rounded-lg border border-white/5">
+<button class="flex-1 py-2 px-4 rounded-md bg-secondary/10 text-secondary font-label-md text-label-md border border-secondary/20 shadow-[0_0_10px_rgba(76,215,246,0.1)] transition-all">
+                            Single Account
+                        </button>
+<button class="flex-1 py-2 px-4 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all">
+                            Bulk Copy-Paste
+                        </button>
+</div>
+</div>
+<!-- Section 3: Account Details (Single Account View) -->
+<div class="space-y-6 bg-surface-container/30 p-6 rounded-lg border border-white/5">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Username / Email -->
+<div class="space-y-2">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Username or Email</label>
+<div class="relative input-glow rounded-lg transition-all duration-300">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">person</span>
+<input class="w-full bg-surface-container-high text-on-surface border border-outline-variant rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:ring-0 font-body-md text-body-md placeholder:text-outline/50 h-[50px]" placeholder="e.g. player@starfall.com" type="text"/>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-2">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Password</label>
+<div class="relative input-glow rounded-lg transition-all duration-300">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full bg-surface-container-high text-on-surface border border-outline-variant rounded-lg pl-10 pr-12 py-3 focus:outline-none focus:ring-0 font-body-md text-body-md placeholder:text-outline/50 h-[50px]" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Additional Details (Optional) -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="font-body-sm text-body-sm text-on-surface-variant block">Recovery Codes / Bind Info <span class="text-outline text-[12px] ml-1">(Optional)</span></label>
+</div>
+<div class="relative input-glow rounded-lg transition-all duration-300 h-24">
+<textarea class="w-full h-full bg-surface-container-high text-on-surface border border-outline-variant rounded-lg p-3 focus:outline-none focus:ring-0 font-body-sm text-body-sm placeholder:text-outline/50 resize-none" placeholder="Paste Moonton bind details, Riot recovery codes, or Steam Guard codes here..."></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer (Actions) -->
+<div class="p-6 border-t border-white/5 bg-surface-container-lowest/50 flex justify-end gap-4 mt-auto">
+<button class="px-6 py-2.5 rounded-lg border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors font-label-md text-label-md">
+                    Cancel
+                </button>
+<button class="btn-glow px-6 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                    Save Inventory
+                </button>
+</div>
+</div>
+</div>
+</body></html>

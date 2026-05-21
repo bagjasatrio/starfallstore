@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Management - StarfallStore Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#070e1b",
+                      "on-surface": "#dce2f5",
+                      "background": "#0d1321",
+                      "on-tertiary-fixed-variant": "#334282",
+                      "secondary-fixed": "#acedff",
+                      "secondary": "#4cd7f6",
+                      "on-primary-container": "#00285d",
+                      "secondary-fixed-dim": "#4cd7f6",
+                      "tertiary": "#b8c4ff",
+                      "on-secondary-fixed-variant": "#004e5c",
+                      "surface-container": "#19202d",
+                      "tertiary-fixed-dim": "#b8c4ff",
+                      "on-surface-variant": "#c2c6d6",
+                      "surface": "#0d1321",
+                      "on-tertiary-container": "#122463",
+                      "tertiary-container": "#7e8dd2",
+                      "on-primary-fixed": "#001a42",
+                      "inverse-primary": "#005ac2",
+                      "surface-tint": "#adc6ff",
+                      "primary-container": "#4d8eff",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-low": "#151c29",
+                      "surface-container-high": "#232a38",
+                      "error": "#ffb4ab",
+                      "surface-bright": "#333948",
+                      "on-tertiary-fixed": "#001354",
+                      "outline": "#8c909f",
+                      "on-secondary-fixed": "#001f26",
+                      "tertiary-fixed": "#dde1ff",
+                      "inverse-on-surface": "#2a303f",
+                      "on-tertiary": "#1a2b6a",
+                      "on-secondary": "#003640",
+                      "on-error": "#690005",
+                      "surface-container-highest": "#2e3543",
+                      "surface-variant": "#2e3543",
+                      "on-primary": "#002e6a",
+                      "on-background": "#dce2f5",
+                      "primary": "#adc6ff",
+                      "inverse-surface": "#dce2f5",
+                      "primary-fixed-dim": "#adc6ff",
+                      "primary-fixed": "#d8e2ff",
+                      "error-container": "#93000a",
+                      "outline-variant": "#424754",
+                      "on-secondary-container": "#00424e",
+                      "secondary-container": "#03b5d3",
+                      "surface-dim": "#0d1321",
+                      "on-primary-fixed-variant": "#004395"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "margin-desktop": "40px",
+                      "container-max": "1280px",
+                      "base": "8px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Geist"
+                      ],
+                      "headline-lg": [
+                              "Geist"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Geist"
+                      ],
+                      "label-md": [
+                              "Geist"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-xl": [
+                              "Geist"
+                      ],
+                      "headline-md": [
+                              "Geist"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-card {
+            background: linear-gradient(180deg, rgba(21, 28, 41, 0.7) 0%, rgba(13, 19, 33, 0.9) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(24px);
+            border-radius: 1rem;
+        }
+        .glow-active {
+            box-shadow: 0 0 15px rgba(76, 215, 246, 0.3);
+        }
+        .glow-banned {
+            box-shadow: 0 0 15px rgba(255, 180, 171, 0.2);
+        }
+        .glow-btn {
+            box-shadow: 0 0 20px rgba(173, 198, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .glow-btn:hover {
+            box-shadow: 0 0 30px rgba(76, 215, 246, 0.4);
+            background: linear-gradient(90deg, #adc6ff 0%, #4cd7f6 100%);
+        }
+      </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(76,215,246,0.1)] sticky top-0 z-50 flex items-center justify-between px-margin-desktop py-4 w-full max-w-container-max mx-auto hidden md:flex">
+<div class="font-headline-lg text-headline-lg font-bold text-secondary-fixed-dim tracking-tight">StarfallStore</div>
+<nav class="flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-secondary-fixed-dim transition-colors font-headline-md text-headline-md text-sm" href="#">Dashboard</a>
+<a class="text-secondary font-bold border-b-2 border-secondary pb-1 font-headline-md text-headline-md text-sm" href="#">Users</a>
+<a class="text-on-surface-variant hover:text-secondary-fixed-dim transition-colors font-headline-md text-headline-md text-sm" href="#">Transactions</a>
+<a class="text-on-surface-variant hover:text-secondary-fixed-dim transition-colors font-headline-md text-headline-md text-sm" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hover:bg-white/5 transition-all duration-300 p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined text-secondary">notifications</span>
+</button>
+<button class="hover:bg-white/5 transition-all duration-300 p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined text-secondary">settings</span>
+</button>
+<img alt="Admin Avatar" class="w-10 h-10 rounded-full border border-white/10" data-alt="A close-up portrait of a professional individual looking slightly off-camera, set against a dark futuristic background with subtle blue rim lighting to match the Midnight Navy and Glassmorphism aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWKbrjaGgnhGSApdzUDfTqa9x8n3opOge7XFCp8118c2sl8GU0nzKUP8j9yvsSTRecanKSTlnfiFRWoR8lalamXATtH9tyxF7DRAGg4xFEV4KzHI77Vpzw5i-3qp_-fgtvcIItRNGr6Hoqsdyle8cteZe0g1s6yQV3AnCqRCVu4XvyI0nEbubG1ZFKXSGwA_-RFHGWEK9p9JyLnvw8n4au-G0hlocw_Il8pPq-FmGVWu3cqyyKNpoXeQw73W-R14ha2_thTrgm3gM"/>
+</div>
+</header>
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Main Content: Buyer List -->
+<section class="lg:col-span-2 flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<h1 class="font-headline-xl text-headline-xl text-on-surface">User Management</h1>
+<div class="flex gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-container-low border border-white/10 rounded-lg pl-10 pr-4 py-2 text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all w-64 backdrop-blur-md" placeholder="Search users..." type="text"/>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-bright border border-white/10 rounded-lg px-4 py-2 flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span class="font-label-md text-label-md">Filter</span>
+</button>
+</div>
+</div>
+<!-- Table Container (Bento/Glass approach) -->
+<div class="glass-card overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-white/5 text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+<th class="p-4">User</th>
+<th class="p-4">Total Spen<span class="hidden sm:inline">ding</span></th>
+<th class="p-4 hidden md:table-cell">Orders</th>
+<th class="p-4">Status</th>
+<th class="p-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5 text-body-sm font-body-sm">
+<!-- User Row 1 (Active) -->
+<tr class="hover:bg-white/5 transition-colors group cursor-pointer">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img alt="Avatar" class="w-10 h-10 rounded-full border border-white/10" data-alt="A confident male gamer profile picture, lit with a mix of dark navy and neon cyan, matching the high-end gaming marketplace vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCe_PT1gQ3v093EEdTdD_tWipZ8t2k2-JmyhfXyr3Pj2car0n8i6L7HnsAuLxxHC_Zh4lgbFDEEdalWBT655kojPFfB1se7j84AlkvOpcnYQFQeptk9pZCfMIS-8fYyTDZ5xA02K1obNi84DBVlXH5nJyvzDS7IVEhQ2UNeqRgeKu4_o-bG4JaKMdAZouT1H8ZiD37UUjmh05RotNWem_4z4_cxF_gYTIDZTGU9O-c33seAnW6wbzGs-tFGd9rhUWmS7IDsPRu3fA"/>
+<div>
+<div class="font-label-md text-label-md text-on-surface">AlexDendro</div>
+<div class="text-on-surface-variant text-xs">alex@starfall.io</div>
+</div>
+</div>
+</td>
+<td class="p-4 font-label-md text-label-md">Rp 1.500.000</td>
+<td class="p-4 hidden md:table-cell text-on-surface-variant">42</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/10 border border-secondary/30 text-secondary font-label-sm text-label-sm glow-active">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                </span>
+</td>
+<td class="p-4 text-right">
+<button class="text-secondary hover:text-secondary-fixed transition-colors font-label-md text-label-md px-3 py-1.5 rounded bg-surface-container hover:bg-surface-bright border border-white/5">Manage</button>
+</td>
+</tr>
+<!-- User Row 2 (Active) -->
+<tr class="hover:bg-white/5 transition-colors group cursor-pointer bg-white/[0.02]">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img alt="Avatar" class="w-10 h-10 rounded-full border border-white/10" data-alt="A portrait of a female user illuminated by soft screen glow, against a deep space dark background, ideal for a futuristic platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK687n53e7PFqE7yMixvVhTaiMBCnYIMi_aIAyB2q8OOwF91ZUoHOMha2N0tFg8FweAs2IEYd2xHw5RF-majZ_zK90As4JbmmN5wv9TbwquI6OU6lc-MhEOwwiMDgMwP3zuu_Vmg25cNBftEDwXL1Sig8_N_6JDrU1-EBjtz2Mm_NeI4O7MzOBi2CT8IU58oSiY3PnZa1fmzwwIfy7c9RQkNthh2BgIS5i8TkhS8y07Al-tQ2AuaZyoeTne_GRVQ53RN3z_XrE9UY"/>
+<div>
+<div class="font-label-md text-label-md text-on-surface">SarahGamer</div>
+<div class="text-on-surface-variant text-xs">sarah.g@starfall.io</div>
+</div>
+</div>
+</td>
+<td class="p-4 font-label-md text-label-md">Rp 8.200.000</td>
+<td class="p-4 hidden md:table-cell text-on-surface-variant">156</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/10 border border-secondary/30 text-secondary font-label-sm text-label-sm glow-active">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                </span>
+</td>
+<td class="p-4 text-right">
+<button class="text-secondary hover:text-secondary-fixed transition-colors font-label-md text-label-md px-3 py-1.5 rounded bg-surface-container hover:bg-surface-bright border border-white/5">Manage</button>
+</td>
+</tr>
+<!-- User Row 3 (Banned) -->
+<tr class="hover:bg-white/5 transition-colors group cursor-pointer">
+<td class="p-4">
+<div class="flex items-center gap-3 opacity-60">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border border-error/20">
+<span class="material-symbols-outlined text-error text-lg">person_off</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface line-through decoration-error/50">ToxicPlayer99</div>
+<div class="text-error/70 text-xs">banned@user.com</div>
+</div>
+</div>
+</td>
+<td class="p-4 font-label-md text-label-md opacity-60">Rp 450.000</td>
+<td class="p-4 hidden md:table-cell text-on-surface-variant opacity-60">12</td>
+<td class="p-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error/10 border border-error/30 text-error font-label-sm text-label-sm glow-banned">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Suspended
+                                </span>
+</td>
+<td class="p-4 text-right">
+<button class="text-secondary hover:text-secondary-fixed transition-colors font-label-md text-label-md px-3 py-1.5 rounded bg-surface-container hover:bg-surface-bright border border-white/5">Manage</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 border-t border-white/5 flex justify-between items-center text-on-surface-variant font-body-sm text-body-sm">
+<span>Showing 1 to 3 of 1,245 entries</span>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-white/10"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="px-2 py-1 rounded bg-secondary/20 text-secondary">1</button>
+<button class="px-2 py-1 rounded hover:bg-white/10">2</button>
+<button class="px-2 py-1 rounded hover:bg-white/10">3</button>
+<button class="p-1 rounded hover:bg-white/10"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar: Detail View (Integrated) -->
+<aside class="glass-card flex flex-col h-fit sticky top-24">
+<!-- Header -->
+<div class="p-6 border-b border-white/5 flex flex-col items-center text-center gap-3">
+<img alt="Avatar Large" class="w-20 h-20 rounded-full border-2 border-secondary/50 p-1 glow-active" data-alt="A larger profile image of a gamer looking slightly up, glowing cyan accents around the frame in a dark void setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg62f4V4Ffwapx0VSU11FVKD0OXYjFON6k7AaHdiKDbGgsgaYps3IxWyBau01KrNHLtbQe2hRi5hS8Tk5uG98ABcUY0yZMKElRZXvDDFNbNvAcFhimbw_1A1-CgVIg6sJEYGYPNS2_0l6YK3VCU1v7-cFj-kz5eMioMgoO-Plazx1fCAgfDvDJdHAk37KzORgsraf2ekHf7HrWekBM3gA1vKv6hwkvGw42s2BSxgf8z2px7MHqQZXaJlTGEOE7cU5UDrmGT5qC67E"/>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">AlexDendro</h2>
+<p class="text-on-surface-variant text-sm flex items-center justify-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">verified_user</span> alex@starfall.io
+                    </p>
+</div>
+<div class="w-full flex justify-between px-4 py-3 bg-surface-container-low rounded-lg mt-2 border border-white/5">
+<div class="flex flex-col text-left">
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">Wallet Balance</span>
+<span class="font-headline-md text-headline-md text-secondary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-secondary text-sm">account_balance_wallet</span> 250.000
+                        </span>
+</div>
+</div>
+</div>
+<div class="p-6 flex flex-col gap-6 overflow-y-auto">
+<!-- Balance Adjustment -->
+<div class="flex flex-col gap-3">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Adjust Balance</h3>
+<div class="flex gap-2">
+<input class="flex-1 bg-surface-container-low border border-white/10 rounded-lg px-3 py-2 text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" placeholder="Amount (Rp)" type="number"/>
+<button class="bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md px-3 py-2 rounded-lg glow-btn flex items-center justify-center" title="Top Up">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="bg-surface-container hover:bg-surface-bright border border-white/10 text-on-surface font-label-md text-label-md px-3 py-2 rounded-lg transition-colors flex items-center justify-center" title="Deduct">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+<!-- Recent Transactions -->
+<div class="flex flex-col gap-3">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider flex justify-between items-center">
+                        Recent Activity <a class="text-secondary text-xs normal-case hover:underline" href="#">View All</a>
+</h3>
+<ul class="flex flex-col gap-2">
+<li class="bg-surface-container-low rounded-lg p-3 border border-white/5 flex justify-between items-center hover:bg-surface-container transition-colors">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Mobile Legends Diamonds</span>
+<span class="text-on-surface-variant text-xs">Today, 14:32</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface">- Rp 150.000</span>
+</li>
+<li class="bg-surface-container-low rounded-lg p-3 border border-white/5 flex justify-between items-center hover:bg-surface-container transition-colors">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Wallet Top Up</span>
+<span class="text-on-surface-variant text-xs">Yesterday, 09:15</span>
+</div>
+<span class="font-label-md text-label-md text-secondary">+ Rp 300.000</span>
+</li>
+</ul>
+</div>
+<!-- Security Info -->
+<div class="flex flex-col gap-3">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Security Info</h3>
+<div class="bg-surface-container-low rounded-lg p-3 border border-white/5 flex flex-col gap-2 font-body-sm text-body-sm">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Last Login</span>
+<span class="text-on-surface text-right">Jakarta, ID<br/>114.120.33.52</span>
+</div>
+<div class="flex justify-between border-t border-white/5 pt-2">
+<span class="text-on-surface-variant">Device</span>
+<span class="text-on-surface text-right">Chrome (Windows)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="p-6 border-t border-white/5 flex flex-col gap-2 mt-auto">
+<button class="w-full bg-surface-container-low hover:bg-surface-container border border-white/10 text-on-surface font-label-md text-label-md py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">notifications</span> Send Notification
+                </button>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-surface-container-low hover:bg-surface-container border border-white/10 text-on-surface font-label-md text-label-md py-2 rounded-lg transition-colors flex items-center justify-center gap-1 text-xs">
+<span class="material-symbols-outlined text-[14px]">lock_reset</span> Reset Pass
+                    </button>
+<button class="bg-error/10 hover:bg-error/20 border border-error/20 text-error font-label-md text-label-md py-2 rounded-lg transition-colors flex items-center justify-center gap-1 text-xs">
+<span class="material-symbols-outlined text-[14px]">block</span> Suspend
+                    </button>
+</div>
+</div>
+</aside>
+</main>
+</body></html>

@@ -1,0 +1,15 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="starfall_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <path d="M50 10L55 35H80L60 50L68 75L50 60L32 75L40 50L20 35H45L50 10Z" fill="url(#starfall_grad)" filter="url(#glow)" />
+  <path d="M20 80C40 80 60 60 80 40" stroke="url(#starfall_grad)" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+  <circle cx="85" cy="35" r="3" fill="#06B6D4" />
+</svg>

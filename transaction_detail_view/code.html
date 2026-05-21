@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Transaction Detail - StarfallStore Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#0d1321",
+                        "secondary-fixed-dim": "#4cd7f6",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-tertiary-fixed-variant": "#334282",
+                        "on-primary-fixed": "#001a42",
+                        "inverse-primary": "#005ac2",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "surface-container-low": "#151c29",
+                        "error-container": "#93000a",
+                        "primary-container": "#4d8eff",
+                        "tertiary-fixed": "#dde1ff",
+                        "surface-container-highest": "#2e3543",
+                        "on-tertiary": "#1a2b6a",
+                        "error": "#ffb4ab",
+                        "outline": "#8c909f",
+                        "on-tertiary-fixed": "#001354",
+                        "tertiary-fixed-dim": "#b8c4ff",
+                        "on-tertiary-container": "#122463",
+                        "on-secondary": "#003640",
+                        "outline-variant": "#424754",
+                        "surface-container": "#19202d",
+                        "secondary-container": "#03b5d3",
+                        "on-secondary-container": "#00424e",
+                        "secondary": "#4cd7f6",
+                        "inverse-surface": "#dce2f5",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-primary-container": "#00285d",
+                        "surface-variant": "#2e3543",
+                        "surface": "#0d1321",
+                        "tertiary": "#b8c4ff",
+                        "surface-container-high": "#232a38",
+                        "on-background": "#dce2f5",
+                        "inverse-on-surface": "#2a303f",
+                        "surface-tint": "#adc6ff",
+                        "surface-container-lowest": "#070e1b",
+                        "on-surface": "#dce2f5",
+                        "on-error": "#690005",
+                        "tertiary-container": "#7e8dd2",
+                        "on-primary": "#002e6a",
+                        "on-primary-fixed-variant": "#004395",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-bright": "#333948",
+                        "primary": "#adc6ff",
+                        "surface-dim": "#0d1321",
+                        "on-secondary-fixed": "#001f26",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#acedff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "label-md": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            @apply bg-surface-container-low/80 backdrop-blur-xl border-t border-white/10;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(76,215,246,0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col antialiased selection:bg-secondary/30 selection:text-secondary-fixed">
+<!-- TopNavBar Suppressed: Intent is Task-Focused (Details View) -->
+<!-- SideNavBar Suppressed: Intent is Task-Focused (Details View) -->
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+<!-- Header Actions -->
+<div class="flex items-center justify-between mb-8">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+                Back to Transactions
+            </button>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-lg bg-surface-container border border-error/20 text-error hover:bg-error/10 transition-all font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">undo</span>
+                    Refund
+                </button>
+</div>
+</div>
+<!-- Page Title & High-Level Status -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">Order #ORD-88291A</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant flex items-center gap-2">
+                    Placed on Oct 24, 2024 at 14:32 WIB
+                    <span class="material-symbols-outlined text-[16px] text-secondary cursor-pointer hover:text-secondary-fixed-dim" title="Copy Order ID">content_copy</span>
+</p>
+</div>
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/30 text-secondary font-label-md text-label-md glow-cyan">
+<span class="material-symbols-outlined text-[18px] animate-pulse">hourglass_top</span>
+                Processing
+            </div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Column 1 & 2: Primary Details -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Product Card -->
+<div class="glass-panel rounded-xl p-6 md:p-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+<h2 class="font-headline-md text-headline-md mb-6 border-b border-white/5 pb-4">Product Details</h2>
+<div class="flex items-start gap-6">
+<div class="w-24 h-24 rounded-lg bg-surface-container overflow-hidden shrink-0 border border-white/5 relative">
+<img alt="Placeholder reference" class="w-full h-full object-cover absolute inset-0 opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtM4WAamiaVoz_VpJ6qRxBy3scrpsUk24fdBK4jwOCAjCMYjisvoCaOvC5IcQ4c3fvZQKn9cY9Ca4qK5mkWoaLuwbqIx1P_j3S3mrqyfsk9t7iGSshCcoyIEYh_1ANY6PRkxVudeEl_pATZPP92at64pAW1-5j1Qy_5gJaYn1QSSjvtP4I3b50lYYuc_VziJBnGkgUg_YuSmsq5JKsq882Ctb-Xy08UqXoXUvmfeY84zgWAXUKpZkgynK1aJ5BldfCjN65Ca9mTos"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-secondary/50">sports_esports</span>
+</div>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Mobile Legends: Bang Bang</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">5000 Diamonds + 200 Bonus</p>
+<div class="grid grid-cols-2 gap-4 bg-surface/50 rounded-lg p-4 border border-white/5">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">User ID</p>
+<p class="font-body-md text-body-md font-medium">12345678 (1234)</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Region</p>
+<p class="font-body-md text-body-md font-medium">Global</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Payment Details -->
+<div class="glass-panel rounded-xl p-6 md:p-8">
+<h2 class="font-headline-md text-headline-md mb-6 border-b border-white/5 pb-4">Payment Information</h2>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-2">
+<span class="font-body-md text-body-md text-on-surface-variant">Payment Method</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">account_balance_wallet</span>
+<span class="font-body-md text-body-md font-medium">GoPay</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="font-body-md text-body-md text-on-surface-variant">Subtotal</span>
+<span class="font-body-md text-body-md">Rp 1.500.000</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="font-body-md text-body-md text-on-surface-variant">Admin Fee</span>
+<span class="font-body-md text-body-md">Rp 2.500</span>
+</div>
+<div class="flex justify-between items-center py-4 border-t border-white/5 mt-2">
+<span class="font-headline-md text-headline-md">Total Paid</span>
+<span class="font-headline-md text-headline-md text-secondary">Rp 1.502.500</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 3: Status & Customer -->
+<div class="flex flex-col gap-6">
+<!-- Customer Info -->
+<div class="glass-panel rounded-xl p-6">
+<h2 class="font-headline-md text-headline-md mb-6 border-b border-white/5 pb-4">Customer Info</h2>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-medium">Alex Chen</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">alex.chen@example.com</p>
+</div>
+</div>
+<div class="space-y-3">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Account Level</p>
+<p class="font-body-sm text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container">star</span> VIP Member
+                            </p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">IP Address</p>
+<p class="font-body-sm text-body-sm font-mono text-on-surface-variant">192.168.1.104</p>
+</div>
+</div>
+</div>
+<!-- Transaction Timeline -->
+<div class="glass-panel rounded-xl p-6 flex-grow">
+<h2 class="font-headline-md text-headline-md mb-6 border-b border-white/5 pb-4">Timeline</h2>
+<div class="relative border-l-2 border-surface-container-highest ml-3 space-y-6 pb-4">
+<!-- Timeline Item 1 (Active) -->
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-secondary border-4 border-background shadow-[0_0_10px_rgba(76,215,246,0.5)]"></div>
+<p class="font-label-md text-label-md text-secondary mb-1">Processing via API</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Connecting to Moonton servers.</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant/60 mt-1">14:35 WIB</p>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-surface-container-highest border-4 border-background"></div>
+<p class="font-label-md text-label-md text-on-surface mb-1">Payment Verified</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">GoPay transaction successful.</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant/60 mt-1">14:33 WIB</p>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative pl-6">
+<div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-surface-container-highest border-4 border-background"></div>
+<p class="font-label-md text-label-md text-on-surface mb-1">Order Created</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">System received order request.</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant/60 mt-1">14:32 WIB</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Suppressed: Intent is Task-Focused -->
+</body></html>

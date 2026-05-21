@@ -1,0 +1,102 @@
+services:
+  # ─── Nginx Reverse Proxy (Production) ─────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: starfall-nginx-prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx-prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./frontend/dist:/usr/share/nginx/html/dist:ro
+      - ./backend/public:/var/www/html/public:ro
+    depends_on:
+      - laravel
+    networks:
+      - starfall-prod-net
+
+  # ─── Laravel PHP-FPM (Production) ─────────────────────────────────────────
+  laravel:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: starfall-laravel-prod
+    restart: always
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+      - backend-vendor-prod:/var/www/html/vendor
+    environment:
+      APP_ENV: production
+      APP_DEBUG: false
+    env_file:
+      - ./backend/.env
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - starfall-prod-net
+
+  # ─── Laravel Queue Worker ─────────────────────────────────────────────────
+  queue-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: starfall-queue-prod
+    restart: always
+    working_dir: /var/www/html
+    command: php artisan queue:work redis --sleep=3 --tries=3 --max-time=3600 --queue=topup,notifications,default
+    volumes:
+      - ./backend:/var/www/html
+      - backend-vendor-prod:/var/www/html/vendor
+    environment:
+      APP_ENV: production
+      APP_DEBUG: false
+    env_file:
+      - ./backend/.env
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - starfall-prod-net
+
+  # ─── PostgreSQL (Secured, No Exposed Ports) ──────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: starfall-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-starfallstore}
+      POSTGRES_USER: ${DB_USERNAME:-starfall}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres-data-prod:/var/lib/postgresql/data
+    # EXPOSED PORTS REMOVED FOR SECURITY (Accessible only inside starfall-prod-net)
+    networks:
+      - starfall-prod-net
+
+  # ─── Redis (Secured, No Exposed Ports) ───────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: starfall-redis-prod
+    restart: always
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis-data-prod:/data
+    # EXPOSED PORTS REMOVED FOR SECURITY
+    networks:
+      - starfall-prod-net
+
+networks:
+  starfall-prod-net:
+    driver: bridge
+
+volumes:
+  postgres-data-prod:
+  redis-data-prod:
+  backend-vendor-prod:
